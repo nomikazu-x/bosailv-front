@@ -1,10 +1,10 @@
 <template>
   <v-row justify="center">
     <v-col cols="12" sm="10" md="8">
-      <BaseTitleCard title="お知らせ作成" />
-      <InfomationNewForm
+      <BaseTitleCard title="防災タスク作成" />
+      <TaskNewForm
         :processing="processing"
-        @infomation-create="onInfomationCreate"
+        @task-create="onTaskCreate"
       />
     </v-col>
   </v-row>
@@ -13,14 +13,14 @@
 <script>
 import Application from '~/plugins/application.js'
 import BaseTitleCard from '~/components/molecules/cards/BaseTitleCard.vue'
-import InfomationNewForm from '~/components/organisms/form/InfomationNewForm.vue'
+import TaskNewForm from '~/components/organisms/form/TaskNewForm.vue'
 
 export default {
-  name: 'InfomationNewCard',
+  name: 'TaskNewCard',
 
   components: {
     BaseTitleCard,
-    InfomationNewForm
+    TaskNewForm
   },
 
   mixins: [Application],
@@ -35,28 +35,23 @@ export default {
   },
 
   methods: {
-    async onInfomationCreate (infomationInfo) {
+    async onTaskCreate (taskInfo) {
       this.processing = true
 
       const params = new FormData()
-      params.append('infomation[label]', infomationInfo.label)
-      params.append('infomation[title]', infomationInfo.title)
-      params.append('infomation[summary]', infomationInfo.summary)
-      params.append('infomation[body]', infomationInfo.body)
-      params.append('infomation[started_at]', infomationInfo.startedAt)
-      params.append('infomation[ended_at]', infomationInfo.endedAt)
-      params.append('infomation[force_started_at]', infomationInfo.forceStartedAt)
-      params.append('infomation[force_ended_at]', infomationInfo.forceEndedAt)
-      params.append('infomation[target]', 'All')
+      params.append('task[title]', taskInfo.title)
+      params.append('task[image]', taskInfo.image)
+      params.append('task[summary]', taskInfo.summary)
+      params.append('task[body]', taskInfo.body)
 
-      await this.$axios.post(this.$config.apiBaseURL + this.$config.adminInfomationCreateUrl, params)
+      await this.$axios.post(this.$config.apiBaseURL + this.$config.adminTaskCreateUrl, params)
         .then((response) => {
           if (response.data == null) {
             this.$toasted.error(this.$t('system.error'))
           } else {
             this.$toasted.error(response.data.alert)
             this.$toasted.info(response.data.notice)
-            this.$router.push({ path: '/admin/infomations' })
+            this.$router.push({ path: '/admin/tasks' })
           }
         },
         (error) => {

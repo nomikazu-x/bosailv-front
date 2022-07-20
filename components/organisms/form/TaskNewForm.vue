@@ -4,11 +4,11 @@
     <v-form autocomplete="off">
       <v-row justify="center">
         <v-col cols="12">
-          <v-sheet outlined class="mt-5">
+          <v-sheet outlined class="pa-2">
             <BaseImageFileInput
               v-model="image"
-              name="image"
               label="画像を選択してください。"
+              name="image"
               rules="required|size_20MB:20480"
             />
           </v-sheet>
@@ -16,17 +16,34 @@
         <v-col cols="12">
           <v-sheet outlined class="pa-2" height="60">
             <BaseTextField
-              v-model="name"
-              name="name"
-              label="ジャンル名"
+              v-model="title"
+              name="title"
+              label="タイトル"
+            />
+          </v-sheet>
+        </v-col>
+        <v-col cols="12">
+          <v-sheet outlined class="pa-2">
+            <BaseTextarea
+              v-model="summary"
+              name="summary"
+              label="概要"
+            />
+          </v-sheet>
+        </v-col>
+        <v-col cols="12">
+          <v-sheet height="600">
+            <Editor
+              v-model="body"
+              name="body"
             />
           </v-sheet>
         </v-col>
         <div>
           <RedBtn
-            id="genre_create_btn"
+            id="task_create_btn"
             :disabled="invalid || processing"
-            @click="onGenreCreate"
+            @click="onTaskCreate"
           >
             作成
           </RedBtn>
@@ -41,16 +58,20 @@ import { ValidationObserver } from 'vee-validate'
 import TheProcessing from '~/components/organisms/application/TheProcessing.vue'
 import BaseImageFileInput from '~/components/molecules/fileInputs/BaseImageFileInput.vue'
 import BaseTextField from '~/components/molecules/textFields/BaseTextField.vue'
+import BaseTextarea from '~/components/molecules/textarea/BaseTextarea.vue'
+import Editor from '~/components/organisms/editor/Editor.vue'
 import RedBtn from '~/components/atoms/btns/RedBtn.vue'
 
 export default {
-  name: 'GenreNewForm',
+  name: 'TaskNewForm',
 
   components: {
     ValidationObserver,
     TheProcessing,
     BaseImageFileInput,
     BaseTextField,
+    BaseTextarea,
+    Editor,
     RedBtn
   },
 
@@ -66,17 +87,21 @@ export default {
   },
   data () {
     return {
-      image: null,
-      name: ''
+      title: '',
+      summary: '',
+      body: '',
+      image: null
     }
   },
   methods: {
-    onGenreCreate () {
-      const genreInfo = {
-        image: this.image,
-        name: this.name
+    onTaskCreate () {
+      const taskInfo = {
+        title: this.title,
+        summary: this.summary,
+        body: this.body,
+        image: this.image
       }
-      this.$emit('genre-create', genreInfo)
+      this.$emit('task-create', taskInfo)
     }
   }
 }

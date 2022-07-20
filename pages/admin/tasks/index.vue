@@ -1,25 +1,21 @@
 <template>
   <TwoColumnContainer
     :left-cols="12"
-    :left-sm="8"
+    :left-sm="4"
     :right-cols="12"
-    :right-sm="4"
+    :right-sm="8"
   >
     <template #top>
       <TheLoading v-if="loading" />
       <TheMessage v-if="!loading" :alert="alert" :notice="notice" />
-      <TopSlide v-if="!loading" />
     </template>
 
     <template v-if="!loading" #left>
-      <TopTransitionCard />
-      <TaskListCard />
-      <NewArticleListCard />
-      <GenreImageListCardWithTitle />
+      <AdminMenusCard />
     </template>
 
     <template v-if="!loading" #right>
-      <DefaultRightColumnTemplate />
+      <TaskListCard />
     </template>
   </TwoColumnContainer>
 </template>
@@ -29,31 +25,26 @@ import Application from '~/plugins/application.js'
 import TwoColumnContainer from '~/components/molecules/containers/TwoColumnContainer.vue'
 import TheLoading from '~/components/organisms/application/TheLoading.vue'
 import TheMessage from '~/components/organisms/application/TheMessage.vue'
-import TopSlide from '~/components/organisms/slide/TopSlide.vue'
-import TopTransitionCard from '~/components/organisms/cards/TopTransitionCard.vue'
+import AdminMenusCard from '~/components/organisms/cards/admin/AdminMenusCard.vue'
 import TaskListCard from '~/components/organisms/cards/task/TaskListCard.vue'
-import NewArticleListCard from '~/components/organisms/cards/article/NewArticleListCard.vue'
-import GenreImageListCardWithTitle from '~/components/organisms/cards/genre/GenreImageListCardWithTitle.vue'
-import DefaultRightColumnTemplate from '~/components/templates/DefaultRightColumnTemplate.vue'
 
 export default {
-  name: 'Index',
+  TaskListCard: 'AdminTasks',
 
   components: {
     TwoColumnContainer,
     TheLoading,
     TheMessage,
-    TopSlide,
-    TopTransitionCard,
-    TaskListCard,
-    NewArticleListCard,
-    GenreImageListCardWithTitle,
-    DefaultRightColumnTemplate
+    AdminMenusCard,
+    TaskListCard
   },
 
   mixins: [Application],
 
   created () {
+    if (!this.$auth.user.admin) {
+      return this.redirectNotAdmin()
+    }
     this.loading = false
   }
 }

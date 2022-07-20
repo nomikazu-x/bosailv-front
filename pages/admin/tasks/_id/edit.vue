@@ -11,12 +11,11 @@
     </template>
 
     <template v-if="!loading" #left>
-      <UserIntroCard />
+      <AdminMenusCard />
     </template>
 
     <template v-if="!loading" #right>
-      <TaskListCard class="mb-4" />
-      <UserShowCardWithGenre />
+      <TaskEditCard @alert="alert = $event" @notice="notice = $event" />
     </template>
   </TwoColumnContainer>
 </template>
@@ -26,25 +25,26 @@ import Application from '~/plugins/application.js'
 import TwoColumnContainer from '~/components/molecules/containers/TwoColumnContainer.vue'
 import TheLoading from '~/components/organisms/application/TheLoading.vue'
 import TheMessage from '~/components/organisms/application/TheMessage.vue'
-import UserIntroCard from '~/components/organisms/cards/user/UserIntroCard.vue'
-import TaskListCard from '~/components/organisms/cards/task/TaskListCard.vue'
-import UserShowCardWithGenre from '~/components/organisms/cards/user/UserShowCardWithGenre.vue'
+import AdminMenusCard from '~/components/organisms/cards/admin/AdminMenusCard.vue'
+import TaskEditCard from '~/components/organisms/cards/task/TaskEditCard.vue'
 
 export default {
-  name: 'UsersUsername',
+  name: 'AdminTasksIdEdit',
 
   components: {
     TwoColumnContainer,
     TheLoading,
     TheMessage,
-    UserIntroCard,
-    TaskListCard,
-    UserShowCardWithGenre
+    AdminMenusCard,
+    TaskEditCard
   },
 
   mixins: [Application],
 
   created () {
+    if (!this.$auth.user.admin) {
+      return this.redirectNotAdmin()
+    }
     this.loading = false
   }
 }
