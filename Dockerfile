@@ -1,5 +1,5 @@
 # create nuxt-appコマンド成功確認済みのnode version
-FROM node:20.11.0
+FROM node:16.14.2
 
 ENV TZ Asia/Tokyo
 
