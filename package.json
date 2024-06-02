@@ -14,7 +14,7 @@
     "test": "jest"
   },
   "engines": {
-    "node": "16.x"
+    "node": "20.x"
   },
   "dependencies": {
     "@babel/plugin-transform-runtime": "^7.16.5",
