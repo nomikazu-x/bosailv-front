@@ -1,5 +1,5 @@
 module.exports = {
   envName: '',
-  apiBaseURL: 'https://api.bosailv.com',
-  frontBaseURL: 'https://app.bosailv.com'
+  apiBaseURL: 'https://bosailv-back.fly.dev',
+  frontBaseURL: 'https://bosailv.vercel.app'
 }
